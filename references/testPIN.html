@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ArcGIS Pin Location Example</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.24/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.24/"></script>
+    <style>
+        #viewDiv {
+            height: 400px;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="viewDiv"></div>
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/Graphic",
+            "dojo/domReady!"
+        ], function(Map, MapView, Graphic) {
+
+            // Create a map and add it to the view
+            var map = new Map({
+                basemap: "streets-navigation-vector"
+            });
+
+            var view = new MapView({
+                container: "viewDiv",
+                map: map,
+                center: [124.643, 8.4812], // Longitude, Latitude of the Philippines
+                zoom: 13 // Zoom level (1 = World, 20 = Streets)
+            });
+
+            // When the view is clicked, create a pin at that location
+            view.on("click", function(event) {
+                // Create a point geometry at the clicked location
+                var point = {
+                    type: "point",
+                    longitude: event.mapPoint.longitude,
+                    latitude: event.mapPoint.latitude
+                };
+
+                // Log the coordinates to the console
+                console.log("Pinned Location - Latitude:", point.latitude, "Longitude:", point.longitude);
+
+                // Use forward geocoding to get address
+                var requestUrl = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&featureTypes=&location=" +
+                    encodeURIComponent(event.mapPoint.longitude + "," + event.mapPoint.latitude);
+
+                fetch(requestUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        var locationName = data.address.LongLabel || "Unnamed Location";
+
+                        // Log the name and coordinates to the console
+                        console.log("Location Name:", locationName, "Latitude:", point.latitude, "Longitude:", point.longitude);
+
+                        // Create a symbol for the pin
+                        var markerSymbol = {
+                            type: "simple-marker",
+                            color: [226, 119, 40],
+                            size: 12,
+                            outline: {
+                                color: [255, 255, 255],
+                                width: 2
+                            }
+                        };
+
+                        // Create a graphic with the name as an attribute
+                        var pinGraphic = new Graphic({
+                            geometry: point,
+                            symbol: markerSymbol,
+                            attributes: {
+                                Name: locationName
+                            }
+                        });
+
+                        view.graphics.removeAll(); // Clear previous graphics
+                        view.graphics.add(pinGraphic); // Add new graphic
+
+                        // Zoom to the new graphic
+                        view.goTo({
+                            target: pinGraphic,
+                            zoom: 15
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

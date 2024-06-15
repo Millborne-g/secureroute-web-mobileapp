@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css" />
+
+        <!-- bootstrap -->
+        <script
+            src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"
+        ></script>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
+        />
+
+        <!-- Font awesome -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+
+        <!-- Pin Location -->
+        <link
+            rel="stylesheet"
+            href="https://js.arcgis.com/4.24/esri/themes/light/main.css"
+        />
+
+        <!-- Tab logo -->
+        <link rel="icon" type="image/x-icon" href="../assets/logo.png" />
+
+        <title>Route Suggestion</title>
+    </head>
+    <body>
+        <div class="wrapper">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+                <ul class="list-unstyled components">
+                    <p>Menu</p>
+                    <li id="dashboard">
+                        <a href="/Dashboard/index.html">
+                            <i class="menuIcons fa-solid fa-house"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li id="crimes">
+                        <a href="/Crime/index.html">
+                            <i class="menuIcons fa-solid fa-handcuffs"></i>
+                            Crime
+                        </a>
+                    </li>
+                    <li id="routeSuggestion" class="active">
+                        <a href="#">
+                            <i class="menuIcons fa-solid fa-route"></i>
+                            Route Suggestion
+                        </a>
+                    </li>
+                    <li id="adminUsers">
+                        <a href="/AdminUsers/index.html">
+                            <i class="menuIcons fa-solid fa-users"></i>
+                            Admin Users
+                        </a>
+                    </li>
+                    <li id="adminLogs">
+                        <a href="/AdminLogs/index.html">
+                            <i class="menuIcons fa-solid fa-list"></i>
+                            Admin Logs
+                        </a>
+                    </li>
+                    <li id="mobilePatrolLogs">
+                        <a href="/MobileLogs/index.html">
+                            <i class="menuIcons fa-solid fa-list"></i>
+                            Mobile Patrol Logs
+                        </a>
+                    </li>
+                    <li id="myLogs">
+                        <a href="/MyLogs/index.html">
+                            <i class="menuIcons fa-solid fa-list"></i>
+                            My Logs
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Navigator -->
+            <nav class="navbar navbar-expand-lg fixed-top bg-white">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center gap-2">
+                        <button
+                            id="sidebarCollapse"
+                            type="button"
+                            class="btn bg-light"
+                        >
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                        <div class="d-flex gap-2">
+                            <img src="../assets/logo.png" style="width: 40px" />
+                            <a class="navbar-brand d-flex"> SecureRoute </a>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="dropdown">
+                            <button
+                                type="button"
+                                class="dropdownUserMenu btn dropdown-toggle"
+                                id="navbarDropdownMenuLink"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                <img
+                                    class="userImage"
+                                    src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
+                                    alt=""
+                                    srcset=""
+                                />
+                                <span class="userFullname">UserFullname</span>
+                            </button>
+                            <div
+                                class="dropdown-menu dropdown-menu-right"
+                                aria-labelledby="navbarDropdownMenuLink"
+                                style="left: auto; right: 0"
+                            >
+                                <a class="dropdown-item logout" href="#"
+                                    >Logout</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Page Content  -->
+            <div id="content" class="sidebarActive">
+                <div id="contentInner">
+                    <div id="pageHeaderContainer">
+                        <span id="pageLabel">Route Suggestion</span>
+                    </div>
+                    <hr class="hr" />
+                    <div id="crimesContent">
+                        <div id="addSearchContainer" class="d-flex flex-column flex-sm-row gap-2 pb-2 align-items-start justify-content-between">
+                            <div class="dropdown">
+                                <button
+                                    class="btn btn-primary btn-lg dropdown-toggle"
+                                    type="button"
+                                    id="dropdownMenuButton"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                >
+                                    Mobile Patrol
+                                    <!-- Changed this text to display your default dropdown item -->
+                                </button>
+                                <div
+                                    class="dropdown-menu"
+                                    aria-labelledby="dropdownMenuButton"
+                                >
+                                    <a class="dropdown-item" href="#"
+                                        >Mobile Patrol</a
+                                    >
+                                    <a class="dropdown-item" href="#"
+                                        >Manual Pin</a
+                                    >
+                                </div>
+                            </div>
+                            <div
+                                id="dateRange"
+                                class="d-flex align-items-center justify-content-end"
+                            >
+                                <button
+                                    class="btn btn-primary"
+                                    onclick="changeWeek(-1)"
+                                    style="
+                                        border-top-right-radius: 0;
+                                        border-bottom-right-radius: 0;
+                                    "
+                                >
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </button>
+                                <button
+                                    class="btn"
+                                    id="weekRange"
+                                    disabled
+                                    style="border-radius: 0"
+                                ></button>
+                                <button
+                                    class="btn btn-primary"
+                                    onclick="changeWeek(1)"
+                                    style="
+                                        border-top-left-radius: 0;
+                                        border-bottom-left-radius: 0;
+                                    "
+                                >
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </div>
+
+                            <div>
+                                <button
+                                    id="addBtn"
+                                    type="button"
+                                    class="btn btn-primary btn-lg"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#addLocation"
+                                >
+                                    Add Pin
+                                </button>
+                            </div>
+                        </div>
+                        <div id="tableContainer">
+                            <div id="mapview">
+                                <!-- <iframe id="map" src="https://www.openstreetmap.org/export/embed.html?bbox=124.19219970703126%2C8.182945857134058%2C124.87953186035158%2C8.697784143504919&amp;layer=mapnik" style="border: 1px solid black"></iframe> -->
+                                <div id="map"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer -->
+                <footer id="footer" class="flex-shrink-0 py-2 bg-white">
+                    <div class="container text-center">
+                        <small>Copyright &copy; 2024 SecureRoute</small>
+                    </div>
+                </footer>
+
+                <!-- Add Modal -->
+                <div
+                    class="modal fade"
+                    id="addLocation"
+                    tabindex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="d-flex align-items-center gap-2">
+                                    <h4
+                                        class="modal-title fs-5 headerTextModal"
+                                        id="chooseLocationText"
+                                        style="color: #7794da"
+                                    >
+                                        Choose Location
+                                    </h4>
+                                    <span class="mr-2">
+                                        <i
+                                            class="fa-solid fa-chevron-right"
+                                        ></i>
+                                    </span>
+                                    <h4
+                                        class="modal-title fs-5"
+                                        id="verifyRouteText"
+                                    >
+                                        Verify Route
+                                    </h4>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    class="btn-close closeAddModal"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                ></button>
+                            </div>
+                            <div id="addContent" class="modal-body">
+                                <div id="chooseLocation" class="chooseLocation">
+                                    <div id="pinLocationContainer">
+                                        <label>Pin the location</label>
+                                        <div id="mapview">
+                                            <!-- <iframe id="map" src="https://www.openstreetmap.org/export/embed.html?bbox=124.19219970703126%2C8.182945857134058%2C124.87953186035158%2C8.697784143504919&amp;layer=mapnik" style="border: 1px solid black"></iframe> -->
+                                            <div id="mapClick"></div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        id="addressContainer"
+                                        class="form-group"
+                                    >
+                                        <label for="address">Address</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="address"
+                                            aria-describedby="emailHelp"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div id="verifyRoute" class="verifyRoute">
+                                    <div id="mapRoute"></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary closeAddModal"
+                                    data-bs-dismiss="modal"
+                                >
+                                    Close
+                                </button>
+                                <button
+                                    id="rightBtn"
+                                    type="button"
+                                    class="btn btn-primary rightBtn"
+                                >
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sidebarActiveBg"></div>
+            </div>
+        </div>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-analytics.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"
+        ></script>
+        <script src="https://js.arcgis.com/4.24"></script>
+        <script src="index.js"></script>
+    </body>
+</html>

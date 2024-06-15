@@ -1,0 +1,356 @@
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+body {
+    font-family: "Poppins", sans-serif;
+    background: #fafafa;
+}
+
+* {
+    font-family: "Poppins", sans-serif;
+}
+
+a,
+a:hover,
+a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.navbar {
+    height: 60px;
+    background-color: #fff;
+}
+
+.dropdownUserMenu {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.userImage {
+    height: 30px;
+    width: 30px;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+    /* display: flex; */
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: #ffffff;
+    color: #fff;
+    transition: all 0.3s;
+    position: fixed;
+    height: 100vh;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+#sidebar ul.components {
+    margin-top: 50px;
+    padding: 20px 0;
+}
+
+#sidebar ul p {
+    color: #939393;
+    padding: 0 20px;
+    margin-bottom: 0.5rem;
+}
+
+#sidebar ul li a {
+    padding: 15px;
+    font-size: 1.1em;
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+
+#sidebar ul li a:hover {
+    color: #7386d5;
+    background: #edeef5;
+}
+
+#sidebar ul li.active > a,
+a[aria-expanded="true"] {
+    color: #fff;
+    background: #656bc8;
+}
+
+.menuIcons {
+    margin-right: 10px;
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: 100%;
+    /* padding: 0 20px 20px 20px; */
+    /* min-height: 100vh; */
+    /* height: 100vh; */
+    transition: all 0.3s;
+    background-color: #f9f8ff;
+    padding-top: 60px;
+}
+
+#content.sidebarActive {
+    padding-left: 250px;
+}
+
+#contentInner {
+    padding: 24px;
+}
+
+#pageHeaderContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#pageLabel {
+    font-family: "Poppins", sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.mapview {
+    width: 100%;
+    height: 645px;
+    transition: all 1s;
+    overflow: hidden;
+}
+
+#map {
+    width: 180%;
+    height: 180%;
+    z-index: 0;
+}
+
+.hide {
+    display: none;
+    transition: all 1s;
+}
+
+#mapHuge {
+    width: 100%;
+    height: 960px;
+}
+
+/* #expandContainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: inherit;
+} */
+
+#mobileAppCard {
+    background: linear-gradient(
+        90deg,
+        rgba(234, 171, 240, 1) 0%,
+        rgba(70, 35, 233, 1) 100%
+    );
+    /* height: 300px;   */
+    height: 215px;
+    border: 1px solid #01042d;
+}
+
+#mobileAppInner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+#mobileAppDescriptionContainer {
+    font-size: 18px;
+    font-weight: 700px;
+    color: #fff;
+    width: 100%;
+    text-align: center;
+}
+
+#getAppBtn {
+    background-color: #fbff79;
+    padding: 10px 23px;
+    border-radius: 25px;
+    text-decoration: none;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0px 0px 42px -15px #fbff79;
+    transition: all 0.3s;
+    color: #000;
+}
+
+#getAppBtn:hover {
+    box-shadow: 0px 0px 42px -8px #fbff79;
+}
+
+/* ---------------------------------------------------
+    heatmap fullview
+----------------------------------------------------- */
+#heatmapFullviewContainer {
+    position: relative;
+}
+
+#backToDashboardBtn {
+    position: fixed;
+    right: 30px;
+    top: 30px;
+}
+
+/* ---------------------------------------------------
+    PIE GRAPH
+----------------------------------------------------- */
+.highcharts-figure,
+.highcharts-data-table table {
+    min-width: 320px;
+    max-width: 800px;
+    margin: 1em auto;
+}
+
+.highcharts-data-table table {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    border: 1px solid #ebebeb;
+    margin: 10px auto;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.highcharts-data-table caption {
+    padding: 1em 0;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.highcharts-data-table th {
+    font-weight: 600;
+    padding: 0.5em;
+}
+
+.highcharts-data-table td,
+.highcharts-data-table th,
+.highcharts-data-table caption {
+    padding: 0.5em;
+}
+
+.highcharts-data-table thead tr,
+.highcharts-data-table tr:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.highcharts-data-table tr:hover {
+    background: #f1f7ff;
+}
+
+input[type="number"] {
+    min-width: 50px;
+}
+
+.mapContainer {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    z-index: 1;
+    top: 0;
+    left: 0;
+}
+
+.floatingExpandContainer {
+    position: fixed;
+    top: 20px;
+    right: 10px;
+    z-index: 2;
+    background-color: #ffffff;
+    height: auto;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 36px 23px rgba(0,0,0,0.1);
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+@media (max-width: 1400px) {
+    #sidebar {
+        z-index: 1;
+    }
+
+    #content.sidebarActive {
+        padding-left: 0;
+    }
+
+    #sidebarActiveBg.active {
+        height: 100%;
+        width: 100%;
+        top: 0;
+        position: fixed;
+        opacity: 40%;
+        background-color: #000000;
+    }
+}
+
+@media (max-width: 1200px) {
+    /* #mobileAppCard {
+        height: 485px;
+    } */
+}
+
+@media (max-width: 992px) {
+    .userFullname {
+        display: none;
+    }
+    #mobileAppCard {
+        height: 485px;
+    }
+}
+
+@media (max-width: 768px) {
+    #mobileAppCard {
+        height: auto;
+    }
+}
+
+@media (max-width: 400px) {
+    .highcharts-figure {
+        transform: scale(0.8);
+    }
+}
+
+/* #mobileAppCard {
+    background: url('./assets/mobileAppCard.svg') center no-repeat;
+    background-size: cover;
+    height: 215px;
+} */
+
+/* 
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+} */

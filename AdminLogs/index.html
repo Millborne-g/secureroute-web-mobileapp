@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css" />
+
+        <!-- bootstrap -->
+        <script
+            src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"
+        ></script>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
+        />
+
+        <!-- Font awesome -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+
+        <!-- Tab logo -->
+        <link rel="icon" type="image/x-icon" href="../assets/logo.png" />
+
+        <title>Mobile Patrol Logs</title>
+    </head>
+    <body>
+        <div class="wrapper">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+                <ul class="list-unstyled components">
+                    <p>Menu</p>
+                    <li id="dashboard">
+                        <a href="/Dashboard/index.html">
+                            <i class="menuIcons fa-solid fa-house"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li id="crimes">
+                        <a href="/Crime/index.html">
+                            <i class="menuIcons fa-solid fa-handcuffs"></i>
+                            Crime
+                        </a>
+                    </li>
+                    <li id="routeSuggestion">
+                        <a href="/RouteSuggestion/index.html">
+                            <i class="menuIcons fa-solid fa-route"></i>
+                            Route Suggestion
+                        </a>
+                    </li>
+                    <li id="adminUsers">
+                        <a href="/AdminUsers/index.html">
+                            <i class="menuIcons fa-solid fa-users"></i>
+                            Admin Users
+                        </a>
+                    </li>
+                    <li id="adminLogs" class="active">
+                        <a href="#">
+                            <i class="menuIcons fa-solid fa-list"></i>
+                            Admin Logs
+                        </a>
+                    </li>
+                    <li id="mobilePatrolLogs">
+                        <a href="/MobileLogs/index.html">
+                            <i class="menuIcons fa-solid fa-list"></i>
+                            Mobile Patrol Logs
+                        </a>
+                    </li>
+                    <li id="myLogs">
+                        <a href="/MyLogs/index.html">
+                            <i class="menuIcons fa-solid fa-list"></i>
+                            My Logs
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Navigator -->
+            <nav class="navbar navbar-expand-lg fixed-top bg-white">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center gap-2">
+                        <button
+                            id="sidebarCollapse"
+                            type="button"
+                            class="btn bg-light"
+                        >
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                        <div class="d-flex gap-2">
+                            <img src="../assets/logo.png" style="width: 40px" />
+                            <a class="navbar-brand d-flex"> SecureRoute </a>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="dropdown">
+                            <button
+                                type="button"
+                                class="dropdownUserMenu btn dropdown-toggle"
+                                id="navbarDropdownMenuLink"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                <img
+                                    class="userImage"
+                                    src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
+                                    alt=""
+                                    srcset=""
+                                />
+                                <span class="userFullname">UserFullname</span>
+                            </button>
+                            <div
+                                class="dropdown-menu dropdown-menu-right logout"
+                                aria-labelledby="navbarDropdownMenuLink"
+                                style="left: auto; right: 0"
+                            >
+                                <a class="dropdown-item" href="#">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Page Content  -->
+            <div id="content" class="sidebarActive">
+                <div id="contentInner">
+                    <div id="pageHeaderContainer">
+                        <span id="pageLabel">Admin Logs</span>
+                    </div>
+                    <hr class="hr" />
+                    <div id="crimesContent">
+                        <div id="addSearchContainer">
+                            <input
+                                id="searchInput"
+                                class="form-control"
+                                type="text"
+                                placeholder="Search"
+                            />
+                        </div>
+                        <div id="tableContainer">
+                            <table
+                                class="table table-striped flex-grow-1 h-100%"
+                            >
+                                <thead>
+                                    <tr>
+                                        <th>Log ID</th>
+                                        <th>Log Type</th>
+                                        <th>Time</th>
+                                        <th>Date</th>
+                                        <!-- <th>Action</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body">
+                                    <!-- Data will be added dynamically here -->
+                                </tbody>
+                            </table>
+                            <nav aria-label="Page navigation">
+                                <ul
+                                    class="pagination justify-content-center"
+                                    id="pagination"
+                                >
+                                    <li class="page-item" id="prev">
+                                        <a
+                                            class="page-link"
+                                            href="#"
+                                            aria-label="Previous"
+                                        >
+                                            <span aria-hidden="true"
+                                                >&laquo;</span
+                                            >
+                                        </a>
+                                    </li>
+                                    <!-- Pagination links will be added dynamically here -->
+                                    <li class="page-item" id="next">
+                                        <a
+                                            class="page-link"
+                                            href="#"
+                                            aria-label="Next"
+                                        >
+                                            <span aria-hidden="true"
+                                                >&raquo;</span
+                                            >
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                        <div id="emptyMessage">
+                            <img
+                                src="../assets/empty-folder.png"
+                                style="height: 300px; width: 300px"
+                            />
+                            <h4>List is empty</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Footer -->
+                <footer id="footer" class="flex-shrink-0 py-2 bg-white">
+                    <div class="container text-center">
+                        <small>Copyright &copy; 2024 SecureRoute</small>
+                    </div>
+                </footer>
+
+                <!-- Delete Modal -->
+                <div
+                    class="modal fade"
+                    id="deleteConfirmationModal"
+                    tabindex="-1"
+                    aria-labelledby="deleteConfirmationModalLabel"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5
+                                    class="modal-title"
+                                    id="deleteConfirmationModalLabel"
+                                >
+                                    Confirmation
+                                </h5>
+                                <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                ></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete Log ID
+                                <span id="logToDelete"></span>?
+                            </div>
+                            <div class="modal-footer">
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-danger"
+                                    data-bs-dismiss="modal"
+                                    id="confirmDelete"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Toast -->
+                <div
+                    class="position-fixed bottom-0 end-0 p-3"
+                    style="z-index: 11"
+                >
+                    <div
+                        class="toast align-items-center bg-success fade"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                    >
+                        <div class="d-flex">
+                            <div class="toast-body text-white">
+                                Log successfully deleted.
+                            </div>
+                            <button
+                                type="button"
+                                class="btn-close btn-close-white me-2 m-auto text-white"
+                                data-bs-dismiss="toast"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sidebarActiveBg"></div>
+
+                <!-- loader -->
+                <div class="position-fixed loader">
+                    <div class="spinner-border text-light" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-analytics.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"
+        ></script>
+        <script src="index.js"></script>
+    </body>
+</html>

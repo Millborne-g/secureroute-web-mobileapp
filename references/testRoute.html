@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="initial-scale=1, maximum-scale=1, user-scalable=no"
+        />
+        <title>
+            ArcGIS JavaScript Tutorials: Find a route and directions (Auth)
+        </title>
+        <style>
+            html,
+            body,
+            #viewDiv {
+                padding: 0;
+                margin: 0;
+                height: 100%;
+                width: 100%;
+            }
+            .directions {
+                width: 250px;
+                height: calc(100% - 100px);
+            }
+        </style>
+        <link
+            rel="stylesheet"
+            href="https://js.arcgis.com/4.29/esri/themes/light/main.css"
+        />
+        <script src="https://js.arcgis.com/4.29"></script>
+        <script>
+            require([
+                "esri/Map",
+                "esri/views/MapView",
+                "esri/Graphic",
+                "esri/geometry/Point",
+                "esri/geometry/Circle",
+                "esri/symbols/SimpleMarkerSymbol",
+                "esri/symbols/SimpleFillSymbol",
+                "esri/rest/route",
+                "esri/rest/support/RouteParameters",
+                "esri/rest/support/FeatureSet",
+                "esri/config",
+                "esri/widgets/Expand",
+            ], function (
+                Map,
+                MapView,
+                Graphic,
+                Point,
+                Circle,
+                SimpleMarkerSymbol,
+                SimpleFillSymbol,
+                route,
+                RouteParameters,
+                FeatureSet,
+                esriConfig,
+                Expand
+            ) {
+                esriConfig.apiKey =
+                    "AAPK5ef76e25deb54d2a8b30a427be25a367L9xKNojkbXZdALYDE_kMmuFAX1l_MWmbe9eD3dABLEd8X_RdISIOriJXXcZ93tT-";
+
+                const map = new Map({
+                    basemap: "arcgis-navigation",
+                });
+
+                const view = new MapView({
+                    container: "viewDiv",
+                    map: map,
+                    center: new Point({
+                        longitude: 124.6319,
+                        latitude: 8.4542,
+                    }),
+                    zoom: 13,
+                });
+
+                // Points used for the route
+                const points1 = [
+                    { longitude: 124.6319, latitude: 8.4542, label: "Start" },
+                    { longitude: 124.65, latitude: 8.46, label: "Waypoint" },
+                    {
+                        longitude: 124.6376,
+                        latitude: 8.451,
+                        label: "Destination",
+                    },
+                    {
+                        longitude: 124.6376,
+                        latitude: 8.4529,
+                        label: "Destination",
+                    },
+                ];
+
+                // Additional points for display only
+                const points2 = [
+                    { longitude: 124.6319, latitude: 8.4542, label: "Start" },
+                    { longitude: 124.65, latitude: 8.46, label: "Waypoint" },
+                    {
+                        longitude: 124.6376,
+                        latitude: 8.451,
+                        label: "Destination",
+                    },
+                    {
+                        longitude: 124.6376,
+                        latitude: 8.4529,
+                        label: "Destination",
+                    },
+                ];
+
+                // Haversine formula to calculate the distance between two points, considering altitude as well
+                function haversineDistance(point1, point2) {
+                    var R = 6371e3; // Radius of the Earth in meters
+                    var lat1Rad = (point1.latitude * Math.PI) / 200; // Convert degrees to radians
+                    var lat2Rad = (point2.latitude * Math.PI) / 200;
+                    var deltaLat =
+                        ((point2.latitude - point1.latitude) * Math.PI) / 200;
+                    var deltaLon =
+                        ((point2.longitude - point1.longitude) * Math.PI) / 200;
+                    var deltaAlt =
+                        (point2.altitude || 0) - (point1.altitude || 0); // Calculate altitude difference
+
+                    var a =
+                        Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+                        Math.cos(lat1Rad) *
+                            Math.cos(lat2Rad) *
+                            Math.sin(deltaLon / 2) *
+                            Math.sin(deltaLon / 2);
+
+                    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                    var distance = R * c; // Distance in meters
+
+                    // Calculate the vertical distance
+                    var verticalDistance = Math.abs(deltaAlt);
+
+                    // Return the maximum of horizontal and vertical distances
+                    return Math.max(distance, verticalDistance);
+                }
+
+                // Function to merge points within 200 meters
+                function mergeClosePoints(points) {
+                    var mergedPoints = [];
+                    var visited = new Array(points.length).fill(false);
+
+                    for (var i = 0; i < points.length; i++) {
+                        if (!visited[i]) {
+                            visited[i] = true;
+                            var closePoints = [points[i]];
+                            for (var j = i + 1; j < points.length; j++) {
+                                if (
+                                    haversineDistance(points[i], points[j]) <=
+                                    200
+                                ) {
+                                    closePoints.push(points[j]);
+                                    visited[j] = true;
+                                }
+                            }
+                            // Calculate the average latitude and longitude of the close points
+                            var avgLat =
+                                closePoints.reduce(
+                                    (sum, point) => sum + point.latitude,
+                                    0
+                                ) / closePoints.length;
+                            var avgLon =
+                                closePoints.reduce(
+                                    (sum, point) => sum + point.longitude,
+                                    0
+                                ) / closePoints.length;
+                            mergedPoints.push({
+                                latitude: avgLat,
+                                longitude: avgLon,
+                            });
+                        }
+                    }
+
+                    return mergedPoints;
+                }
+
+                view.when(() => {
+                    points1.push(points1[0]);
+                    let pointsRoute = mergeClosePoints(points1);
+                    pointsRoute.forEach((point) => {
+                        addGraphic(point.label, new Point(point), "red");
+                        addCircle(new Point(point));
+                    });
+
+                    // Add display-only points to the map with circles
+                    points2.forEach((point) => {
+                        addGraphic(point.label, new Point(point), "black");
+                    });
+
+                    getRoute(); // Calculate initial route
+                });
+
+                view.on("click", (event) => {
+                    const label = "Point " + (view.graphics.length + 1); // Label for additional points
+                    points1.push({
+                        longitude: event.mapPoint.longitude,
+                        latitude: event.mapPoint.latitude,
+                        label: label,
+                    });
+                    addGraphic(label, event.mapPoint, "red");
+                    getRoute(); // Recalculate route with new point
+                });
+
+                function addGraphic(label, point, color) {
+                    const graphic = new Graphic({
+                        symbol: new SimpleMarkerSymbol({
+                            color: color,
+                            size: "8px",
+                        }),
+                        geometry: point,
+                        attributes: {
+                            label: label,
+                        },
+                    });
+                    view.graphics.add(graphic);
+                }
+
+                function addCircle(point) {
+                    const circle = new Circle({
+                        center: point,
+                        radius: 200,
+                    });
+
+                    const circleGraphic = new Graphic({
+                        geometry: circle,
+                        symbol: new SimpleFillSymbol({
+                            color: [0, 0, 0, 0.1],
+                            outline: {
+                                color: "",
+                                width: 0.5,
+                            },
+                        }),
+                    });
+
+                    view.graphics.add(circleGraphic);
+                }
+
+                function getRoute() {
+                    const routeGraphics = view.graphics.filter(
+                        (g) => g.symbol.color.toHex() === "#ff0000"
+                    ); // Only use red points for routing
+                    const routeParams = new RouteParameters({
+                        stops: new FeatureSet({
+                            features: routeGraphics.toArray(),
+                        }),
+                        returnDirections: true,
+                    });
+
+                    route
+                        .solve(
+                            "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World",
+                            routeParams
+                        )
+                        .then((data) => {
+                            view.graphics.removeMany(
+                                view.graphics.filter(
+                                    (g) => g.geometry.type === "polyline"
+                                )
+                            );
+                            showRoutes(data.routeResults);
+                            if (data.routeResults[0]) {
+                                showDirections(
+                                    data.routeResults[0].directions.features
+                                );
+                            }
+                        })
+                        .catch((error) => {
+                            console.error("Routing error: ", error);
+                            alert(
+                                "Failed to calculate route: " + error.message
+                            );
+                        });
+                }
+
+                function showRoutes(routes) {
+                    routes.forEach((result) => {
+                        result.route.symbol = {
+                            type: "simple-line",
+                            color: [5, 150, 255],
+                            width: 3,
+                        };
+                        view.graphics.add(result.route);
+                    });
+                }
+
+                function showDirections(directions) {
+                    const directionsElement = document.createElement("div");
+                    directionsElement.innerHTML = "<h3>Directions</h3>";
+                    directionsElement.classList.add(
+                        "esri-widget",
+                        "esri-widget--panel",
+                        "esri-directions__scroller",
+                        "directions"
+                    );
+                    directionsElement.style.marginTop = "0";
+                    directionsElement.style.padding = "0 15px";
+                    directionsElement.style.minHeight = "365px";
+
+                    const directionsList = document.createElement("ol");
+
+                    directions.forEach((result, index) => {
+                        const direction = document.createElement("li");
+                        direction.innerHTML =
+                            result.attributes.text +
+                            (result.attributes.length > 0
+                                ? ` (${result.attributes.length.toFixed(
+                                      2
+                                  )} miles)`
+                                : "");
+                        directionsList.appendChild(direction);
+                    });
+
+                    directionsElement.appendChild(directionsList);
+                    view.ui.empty("top-right");
+                    view.ui.add(
+                        new Expand({
+                            view: view,
+                            content: directionsElement,
+                            expanded: true,
+                            mode: "floating",
+                        }),
+                        "top-right"
+                    );
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <div id="viewDiv"></div>
+    </body>
+</html>

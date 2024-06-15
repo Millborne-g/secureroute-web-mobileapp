@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crime Hotspots Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map { height: 400px; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<button id="addLocationButton">Add Location</button>
+<button id="toggleHeatmapButton">Toggle Heatmap</button>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+<script>
+  var locations = [
+    { crimeID: "-NweGqcBA0kKY0A7lPrU", crimeType: "Homicide", date: "4/26/2024", latitude: 8.465, longitude: 124.63, location: "Shell2", point: 1, time: "10:34:33 PM" },
+    { crimeID: "-NweGqcBA0kKY0A7lPrU", crimeType: "Homicide", date: "4/26/2024", latitude: 8.465, longitude: 124.62, location: "Shell2", point: 2, time: "10:34:33 PM" },
+    { crimeID: "-NweGqcBA0kKY0A7lPrU", crimeType: "Homicide", date: "4/26/2024", latitude: 8.466, longitude: 124.62, location: "Shell2", point: 1, time: "10:34:33 PM" }
+  ];
+
+  var map = L.map('map').setView([8.464, 124.622], 15);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  var markersLayer = L.layerGroup().addTo(map);
+  var heatmapLayer = null;
+
+  function addMarkers() {
+    markersLayer.clearLayers();
+    locations.forEach(function(location) {
+      var latlng = L.latLng(location.latitude, location.longitude);
+      L.marker(latlng).addTo(markersLayer);
+      if (location.point === 2) {
+        L.circle(latlng, {
+          color: 'transparent',
+          fillColor: '#f03',
+          fillOpacity: 0.5,
+          radius: 200
+        }).addTo(markersLayer);
+      }
+    });
+  }
+
+  function addNewLocation() {
+    var newLocation = {
+      crimeID: "-NewCrimeID",
+      crimeType: "New Crime Type",
+      date: "New Date",
+      latitude: 8.467,
+      longitude: 124.625,
+      location: "New Location",
+      point: 1,
+      time: "New Time"
+    };
+
+    locations.push(newLocation);
+    var latlng = L.latLng(newLocation.latitude, newLocation.longitude);
+    L.marker(latlng).addTo(markersLayer);
+  }
+
+  function toggleHeatmap() {
+    if (map.hasLayer(markersLayer)) {
+      map.removeLayer(markersLayer);
+      if (!heatmapLayer) {
+        var heatData = locations.map(function(location) {
+          return [location.latitude, location.longitude, location.point];
+        });
+        heatmapLayer = L.heatLayer(heatData, 
+          { 
+            radius: 70,
+            blur: 50, 
+            maxZoom: 15,
+          }).addTo(map);
+      } else {
+        heatmapLayer.addTo(map);
+      }
+    } else {
+      map.removeLayer(heatmapLayer);
+      markersLayer.addTo(map);
+    }
+  }
+
+  document.getElementById('addLocationButton').addEventListener('click', addNewLocation);
+  document.getElementById('toggleHeatmapButton').addEventListener('click', toggleHeatmap);
+
+  addMarkers();
+</script>
+</body>
+</html>

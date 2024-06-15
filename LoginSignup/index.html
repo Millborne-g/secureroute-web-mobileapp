@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+            integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link rel="stylesheet" href="style.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link rel="icon" type="image/x-icon" href="../assets/logo.png" />
+        <title>Login Form</title>
+    </head>
+    <body class="existing-project">
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-analytics.js"></script>
+        <script src="script.js" defer></script>
+
+        <div class="container">
+            <div class="container-inner">
+                <div class="logo-container">
+                    <!-- <img src="background.png" alt="Your Logo" /> -->
+                    <div class="loginBg">
+                    </div>
+                    <div class="bgcover">
+                    </div>
+                    
+                    <div class="textContainer">
+                        <span class="welcomeText">
+                            Welcome to the SecureRoute Admin Portal!
+                        </span>
+                        <span class="subWelcomeText">
+                            A cutting-edge technology to ensure swift response, enhance community safety, and empower law enforcement efforts across the board.
+                        </span>
+
+                        <div class="logoContainer">
+                            <img class="loginLogo" src="../assets/logo.png">
+                            <span class="webName">SecureRoute</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-container">
+                    <div class="form-container-inner">
+                        <form id="loginForm" onsubmit="submitForm(event)">
+                            <h2>Login</h2>
+                            <div class="warning">
+                                <i
+                                    class="errorIcon fa-solid fa-circle-exclamation"
+                                ></i>
+                                <span>Username or Password Mismatch</span>
+                            </div>
+                            <label for="email">Email:</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                required
+                            />
+                            <label for="password">Password:</label>
+                            <div class="password-container">
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    required
+                                />
+                                <span
+                                    class="password-toggle bi"
+                                    id="togglePassword"
+                                    onclick="togglePasswordVisibility('password', 'togglePassword')"
+                                    >&#128065;</span
+                                >
+                            </div>
+                            <center>
+                                <a href="#" onclick="toggleForgotPassword()"
+                                    >Forgot Password?</a
+                                >
+                            </center>
+                            <button type="submit" onclick="submitForm()">
+                                Login
+                            </button>
+                        </form>
+                        <!-- Forgot form initially hidden -->
+                        <form id="ForgotPasswordForm" style="display: none">
+                            <i
+                                class="back-arrow bi bi-arrow-left fa-solid fa-arrow-left"
+                                onclick="toggleLogin()"
+                            ></i>
+                            <h2>Forgot Password?</h2>
+                            <label for="forgot-email">Email:</label>
+                            <input
+                                type="text"
+                                id="forgot-email"
+                                name="forgot-email"
+                                required
+                            />
+                            <button
+                                type="button"
+                                onclick="submitForgotPasswordForm()"
+                            >
+                                Submit
+                            </button>
+                        </form>
+                        <p id="signupText">
+                            Don't have an account?
+                            <a href="#" onclick="toggleSignUp()">Sign Up!</a>
+                        </p>
+                        <!-- Signup form initially hidden -->
+                        <form
+                            id="signupForm"
+                            style="display: none"
+                            onsubmit="submitSignUpForm(event)"
+                        >
+                            <i
+                                class="back-arrow bi bi-arrow-left fa-solid fa-arrow-left"
+                                onclick="toggleLogin()"
+                            ></i>
+                            <h2>Sign Up</h2>
+                            <label for="fullName">Full Name:</label>
+                            <input type="text" id="newName" required />
+                            <label for="newEmail">Email:</label>
+                            <input
+                                type="email"
+                                id="newEmail"
+                                name="newEmail"
+                                required
+                            />
+                            <label for="newEmail">Badge Number:</label>
+                            <input
+                                type="text"
+                                id="newBadgeNumber"
+                                name="newBadgeNumber"
+                                required
+                            />
+                            <label for="newPassword">Password:</label>
+                            <div class="password-container">
+                                <input
+                                    type="password"
+                                    id="newPassword"
+                                    name="newPassword"
+                                    required
+                                />
+                                <span
+                                    class="password-toggle bi"
+                                    id="toggleNewPassword"
+                                    onclick="togglePasswordVisibility('newPassword', 'toggleNewPassword')"
+                                    >&#128065;</span
+                                >
+                            </div>
+                            <label for="confirmPassword"
+                                >Confirm Password:</label
+                            >
+                            <div class="password-container">
+                                <input
+                                    type="password"
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    required
+                                />
+                                <span
+                                    class="password-toggle bi"
+                                    id="toggleConfirmPassword"
+                                    onclick="togglePasswordVisibility('confirmPassword', 'toggleConfirmPassword')"
+                                    >&#128065;</span
+                                >
+                            </div>
+                            <button type="submit" onclick="submitSignUpForm()">
+                                Sign Up
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="popup" id="successPopup">
+                <div class="popup-content">
+                    <span class="close" onclick="closeSuccessPopup()"
+                        >&times;</span
+                    >
+                    <p>Registration Successful!</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

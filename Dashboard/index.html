@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css" />
+
+        <!-- bootstrap -->
+        <script
+            src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"
+        ></script>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
+        />
+
+        <!-- Font awesome -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+
+        <!-- pie graph -->
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+        <!-- socket -->
+        <script
+            src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+            integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+            crossorigin="anonymous"
+        ></script>
+
+        <!-- leaflet -->
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/leaflet/dist/leaflet.css"
+        />
+
+        <link rel="icon" type="image/x-icon" href="../assets/logo.png" />
+        <title>Dashboard</title>
+    </head>
+    <body>
+        <div class="wrapper">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+                <ul class="list-unstyled components">
+                    <p>Menu</p>
+                    <li id="dashboard" class="active">
+                        <a href="#">
+                            <i class="menuIcons fa-solid fa-house"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li id="crimes">
+                        <a href="/Crime/index.html">
+                            <i class="menuIcons fa-solid fa-handcuffs"></i>
+                            Crime
+                        </a>
+                    </li>
+                    <li id="routeSuggestion">
+                        <a href="/RouteSuggestion/index.html">
+                            <i class="menuIcons fa-solid fa-route"></i>
+                            Route Suggestion
+                        </a>
+                    </li>
+                    <li id="adminUsers">
+                        <a href="/AdminUsers/index.html">
+                            <i class="menuIcons fa-solid fa-users"></i>
+                            Admin Users
+                        </a>
+                    </li>
+                    <li id="adminLogs">
+                        <a href="/AdminLogs/index.html">
+                            <i class="menuIcons fa-solid fa-list"></i>
+                            Admin Logs
+                        </a>
+                    </li>
+                    <li id="mobilePatrolLogs">
+                        <a href="/MobileLogs/index.html">
+                            <i class="menuIcons fa-solid fa-list"></i>
+                            Mobile Patrol Logs
+                        </a>
+                    </li>
+                    <li id="myLogs">
+                        <a href="/MyLogs/index.html">
+                            <i class="menuIcons fa-solid fa-list"></i>
+                            My Logs
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Navigator -->
+            <nav class="navbar navbar-expand-lg fixed-top bg-white">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center gap-2">
+                        <button
+                            id="sidebarCollapse"
+                            type="button"
+                            class="btn bg-light"
+                        >
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                        <div class="d-flex gap-2">
+                            <img src="../assets/logo.png" style="width: 40px" />
+                            <a class="navbar-brand d-flex"> SecureRoute </a>
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="dropdown">
+                            <button
+                                type="button"
+                                class="dropdownUserMenu btn dropdown-toggle"
+                                id="navbarDropdownMenuLink"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                <img
+                                    class="userImage"
+                                    src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
+                                    alt=""
+                                    srcset=""
+                                />
+                                <span class="userFullname">UserFullname</span>
+                            </button>
+                            <div
+                                class="logout dropdown-menu dropdown-menu-right"
+                                aria-labelledby="navbarDropdownMenuLink"
+                                style="left: auto; right: 0"
+                            >
+                                <a class="dropdown-item" href="#">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Page Content  -->
+            <div id="content" class="sidebarActive">
+                <div id="contentInner">
+                    <div id="pageHeaderContainer">
+                        <span id="pageLabel">Dashboard</span>
+                        <span id="userGreetings"
+                            >Hi UserFullname good to see you!</span
+                        >
+                    </div>
+                    <hr class="hr" />
+                    <div id="dashboardContent">
+                        <div class="row">
+                            <div
+                                class="d-flex align-items-center justify-content-end mb-3"
+                            >
+                                <button
+                                    class="btn btn-primary"
+                                    onclick="changeWeek(-1)"
+                                    style="
+                                        border-top-right-radius: 0;
+                                        border-bottom-right-radius: 0;
+                                    "
+                                >
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </button>
+                                <button
+                                    class="btn"
+                                    id="weekRange"
+                                    disabled
+                                    style="border-radius: 0"
+                                ></button>
+                                <button
+                                    class="btn btn-primary"
+                                    onclick="changeWeek(1)"
+                                    style="
+                                        border-top-left-radius: 0;
+                                        border-bottom-left-radius: 0;
+                                    "
+                                >
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div
+                                id="mapCard"
+                                class="col-xl-8 col-lg-12 mb-xl-0 mb-lg-3 mb-3"
+                            >
+                                <div id="card">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h6
+                                                class="card-title d-flex align-items-sm-center gap-2 align-items-start justify-content-between flex-column flex-sm-row"
+                                            >
+                                                Monitoring
+                                                <div
+                                                    id="expandContainer"
+                                                    class="d-flex gap-2"
+                                                >
+                                                    <button
+                                                        id="changeView"
+                                                        type="button"
+                                                        class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2"
+                                                    >
+                                                        <i
+                                                            id="toggleIcon"
+                                                            class="fa-solid fa-toggle-off"
+                                                        ></i>
+                                                        Heatmap Mode
+                                                    </button>
+                                                    <button
+                                                        id="findMobilePatrol"
+                                                        type="button"
+                                                        class="btn btn-secondary btn-sm"
+                                                        disabled
+                                                    >
+                                                        Find Mobile Patrol
+                                                    </button>
+
+                                                    <button
+                                                        id="expandMap"
+                                                        type="button"
+                                                        class="btn btn-light btn-sm"
+                                                    >
+                                                        <i
+                                                            class="fa-solid fa-expand"
+                                                        ></i>
+                                                    </button>
+                                                </div>
+                                            </h6>
+                                            <div class="mapview z-0">
+                                                <div id="map"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="rightSideContainer" class="col-xl-4 col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-6 mb-3">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h6 class="card-title">
+                                                    Statistic
+                                                </h6>
+                                                <figure
+                                                    class="highcharts-figure"
+                                                >
+                                                    <div id="container"></div>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-6">
+                                        <div class="col-12">
+                                            <div
+                                                id="mobileAppCard"
+                                                class="card"
+                                            >
+                                                <div
+                                                    id="mobileAppInner"
+                                                    class="card-body"
+                                                >
+                                                    <div
+                                                        id="mobileAppDescriptionContainer"
+                                                    >
+                                                        <span
+                                                            id="mobileAppDescription"
+                                                        >
+                                                            Get app for
+                                                            real-time GPS
+                                                            tracking, route
+                                                            suggestions for law
+                                                            enforcement.
+                                                        </span>
+                                                    </div>
+                                                    <!-- <div style="border-color: red; height: 100%;"></div> -->
+                                                    <div>
+                                                        <a
+                                                            href="https://drive.google.com/drive/folders/16BHD8q3YDmR1vZcbst6qtRX9EL3sRgBJ"
+                                                            target="_blank"
+                                                            id="getAppBtn"
+                                                        >
+                                                            Get App
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="row">
+                            </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Admin Modal -->
+                <div
+                    class="modal fade adminModal"
+                    id="noButtonModal"
+                    tabindex="-1"
+                    aria-labelledby="modalLabel"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalLabel">
+                                    Notice
+                                </h5>
+                            </div>
+                            <div class="modal-body">
+                                The Super Admin does not approve your
+                                registration. Please contact your Super Admin.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <footer class="flex-shrink-0 py-2 bg-white">
+                    <div class="container text-center">
+                        <small>Copyright &copy; 2024 SecureRoute</small>
+                    </div>
+                </footer>
+
+                <div id="sidebarActiveBg"></div>
+            </div>
+        </div>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-analytics.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"
+        ></script>
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>

@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "crime",
+    "slug": "crime",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/logo.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#01042D"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDELrAoyu7JPcloRy9rbN2jzj9Up5aCSIM"
+        }
+      },
+      "supportsTablet": false
+    },
+    "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDELrAoyu7JPcloRy9rbN2jzj9Up5aCSIM"
+        }
+      },
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/logo.png",
+        "backgroundColor": "#01042D"
+      },
+      "package": "com.millborne.crime"
+    },
+    "web": {
+      "favicon": "./assets/images/.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2ba8232f-b836-4d72-95f5-b21f98c08455"
+      }
+    },
+    "plugins": [
+      "expo-build-properties"
+    ]
+  }
+}

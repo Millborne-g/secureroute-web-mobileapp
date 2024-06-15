@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Visible Heatmap</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 600px;
+            width: 800px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+    <script>
+        var coordinates = [
+            [8.4542, 124.6319],  // Cagayan de Oro
+            [8.4796, 124.6471],  // CDO 2
+            [8.4619, 124.6424],  // CDO 3
+            [8.4538, 124.6432],  // CDO 4
+            [8.4325, 124.5600],  // CDO 5
+            [8.4781, 124.6423],  // CDO 6
+            [8.4791, 124.6361],  // CDO 7
+            [8.4601, 124.6080],  // CDO 8
+            [8.4505, 124.6286],  // CDO 9
+            [8.4833, 124.6500],  // CDO 10
+        ];
+
+        var map = L.map('map').setView([8.4542, 124.6319], 15); // Centered on Cagayan de Oro, zoom level 14
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(map);
+
+        var heat = L.heatLayer(coordinates, {
+            radius: 70,
+            blur: 50,
+            maxZoom: 15,
+        }).addTo(map);
+    </script>
+</body>
+</html>

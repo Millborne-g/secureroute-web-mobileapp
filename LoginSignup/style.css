@@ -1,0 +1,349 @@
+:root {
+    --main-bg-color: #001636;
+    --form-bg-color: #fff;
+    --button-bg-color: #4caf50;
+    --button-hover-color: #45a049;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--main-bg-color);
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    /* padding: 0 200px; */
+}
+
+.container-inner {
+    width: 100%; /* Adjust the width as needed */
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    height: 100%;
+    background-color: #ffffff;
+}
+
+.logo-container {
+    /* width: 500px; */
+    flex: 1.2;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.loginBg {
+    width: 100%;
+    height: 100vh;
+
+    background-image: url("assets/loginBg.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.bgcover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background-color: #000c77;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.textContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 100px;
+    box-sizing: border-box;
+    gap: 11px;
+}
+
+.welcomeText {
+    text-align: center;
+    font-size: 35px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 7px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.subWelcomeText {
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+    text-shadow: 7px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.logoContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+}
+
+.loginLogo {
+    width: 50px;
+}
+
+.webName {
+    font-size: 20px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.form-container {
+    flex: 0.8;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* background-color: #e20e0e; */
+    box-sizing: border-box;
+}
+
+.form-container-inner {
+    background-color: var(--form-bg-color);
+    padding: 25px 30px 25px 30px;
+    border-radius: 15px;
+    /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 0 80px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: 100%;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    /* text-shadow: 1px 0px 1px #cccccc, 0px 1px 1px #eeeeee, 2px 1px 1px #cccccc,
+        1px 2px 1px #eeeeee, 3px 2px 1px #cccccc, 2px 3px 1px #eeeeee,
+        4px 3px 1px #cccccc, 3px 4px 1px #eeeeee, 5px 4px 1px #cccccc,
+        4px 5px 1px #eeeeee, 6px 5px 1px #cccccc, 5px 6px 1px #eeeeee,
+        7px 6px 1px #cccccc; */
+}
+
+label {
+    margin-bottom: 8px;
+    color: #555;
+}
+
+input {
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: var(--button-bg-color);
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--button-hover-color);
+}
+
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.password-container input {
+    flex: 1;
+    padding-right: 30px; /* Adjust the padding to provide space for the toggle icon */
+}
+
+.password-toggle {
+    position: absolute;
+    top: 30%;
+    right: 5px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1.25rem; /* Adjust the icon size */
+}
+
+.back-arrow {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #555;
+    padding: inherit;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 20px; /* Adjust this value as needed */
+    left: 50%;
+    width: 13.5%;
+    transform: translateX(-50%);
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1000;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Adding a subtle shadow */
+}
+
+.popup-content {
+    margin-bottom: 2px; /* Add some margin below the content */
+}
+
+.close {
+    font-size: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px; /* Adjust this value to properly align the close button */
+    right: 10px;
+}
+
+.warning {
+    background-color: #fff5f8;
+    border: 1px solid #f78ea8;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: none;
+    gap: 10px;
+    align-items: center;
+}
+
+.errorIcon {
+    color: #f78ea8;
+}
+
+@media (max-width: 900px) {
+    .welcomeText {
+        display: none;
+    }
+
+    .subWelcomeText {
+        display: none;
+    }
+
+    .form-container {
+        position: absolute;
+        width: 100%;
+    }
+
+    .form-container-inner {
+        width: 400px;
+        padding: 0 30px 25px 30px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        width: 100%;
+    }
+}
+
+@media (max-width: 500px) {
+    .form-container {
+        position: absolute;
+        width: 100%;
+        padding: 0 30px;
+    }
+
+    .form-container-inner {
+        width: 100%;
+    }
+}
+
+/* @media (max-width: 1200px) {
+    .container-inner {
+        display: flex;
+    }
+    .logo-container {
+        width: 450px;
+    }
+
+    .form-container-inner {
+        width: 100%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .logo-container {
+        display: none;
+    }
+
+    .form-container {
+        display: flex;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .form-container-inner {
+        width: 70%;
+    }
+}
+
+@media (max-width: 800px) {
+    .container {
+        padding: 0 50px;
+    }
+
+    .form-container-inner {
+        width: 100%;
+    }
+}
+
+@media (max-width: 490px) {
+    .container {
+        padding: 0 10px;
+    }
+    .logo-container {
+        display: none;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+    .form-container-inner {
+        width: 100%;
+    }
+} */
