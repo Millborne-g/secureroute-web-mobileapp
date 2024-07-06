@@ -1,9 +1,9 @@
 // Retrieve data from sessionStorage
-let userData = {}
+let userData = {};
 function retrieveData() {
-    userData = JSON.parse(localStorage.getItem('userInfo'));
-    if(userData){
-        window.location.href = "/Dashboard/index.html"; 
+    userData = JSON.parse(localStorage.getItem("userInfo"));
+    if (userData) {
+        window.location.href = "/Dashboard/index.html";
     }
 }
 retrieveData();
@@ -12,17 +12,18 @@ retrieveData();
 const firebaseConfig = {
     apiKey: "AIzaSyC_4AIr2IjdMWl815G95z3rx8HM3eaur9k",
     authDomain: "crime-hotspot-ustp-cpe.firebaseapp.com",
-    databaseURL: "https://crime-hotspot-ustp-cpe-default-rtdb.asia-southeast1.firebasedatabase.app",
+    databaseURL:
+        "https://crime-hotspot-ustp-cpe-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "crime-hotspot-ustp-cpe",
     storageBucket: "crime-hotspot-ustp-cpe.appspot.com",
     messagingSenderId: "1093769132537",
-    appId: "1:1093769132537:web:de4a2d38b20d3ac0a5a528"
+    appId: "1:1093769132537:web:de4a2d38b20d3ac0a5a528",
 };
 
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth(); 
-const db = firebase.database(); 
+const auth = firebase.auth();
+const db = firebase.database();
 
 // Function to handle sign up
 function submitSignUpForm(event) {
@@ -48,29 +49,36 @@ function submitSignUpForm(event) {
             // Now you can update user profile with name
             user.updateProfile({
                 displayName: newName,
-                password: newPassword
-            }).then(() => {
-                // Profile updated successfully
-                console.log("Profile updated successfully for user:", user);
+                password: newPassword,
+            })
+                .then(() => {
+                    // Profile updated successfully
+                    console.log("Profile updated successfully for user:", user);
 
-                // // Show modal on successful registration
-                // var modal = document.getElementById("myModal");
-                // modal.style.display = "block";
+                    // // Show modal on successful registration
+                    // var modal = document.getElementById("myModal");
+                    // modal.style.display = "block";
 
-                // Save user details to Realtime Database
-                saveUserToDatabase(newName, newEmail, newBadgeNumber, newPassword);
-                document.getElementById("newName").value = "";
-                document.getElementById("newEmail").value = "";
-                document.getElementById("newBadgeNumber").value = "";
-                document.getElementById("newPassword").value = "";
-                document.getElementById("confirmPassword").value = "";
-                // setTimeout(function() {
-                //     location.reload();
-                // }, 2000); 
-            }).catch((error) => {
-                // Handle profile update errors
-                console.error("Error updating profile:", error);
-            });
+                    // Save user details to Realtime Database
+                    saveUserToDatabase(
+                        newName,
+                        newEmail,
+                        newBadgeNumber,
+                        newPassword
+                    );
+                    document.getElementById("newName").value = "";
+                    document.getElementById("newEmail").value = "";
+                    document.getElementById("newBadgeNumber").value = "";
+                    document.getElementById("newPassword").value = "";
+                    document.getElementById("confirmPassword").value = "";
+                    // setTimeout(function() {
+                    //     location.reload();
+                    // }, 2000);
+                })
+                .catch((error) => {
+                    // Handle profile update errors
+                    console.error("Error updating profile:", error);
+                });
             showSuccessPopup();
         })
         .catch((error) => {
@@ -99,14 +107,15 @@ function saveUserToDatabase(name, email, badgeNumber, password) {
         status: "pending",
         time: timeString,
         date: dateString,
-        role: "admin"
+        role: "admin",
     });
 }
 
 function showSuccessPopup() {
-    var popup = document.getElementById('successPopup');
-    if (popup) { // Check if the element exists
-        popup.style.display = 'block';
+    var popup = document.getElementById("successPopup");
+    if (popup) {
+        // Check if the element exists
+        popup.style.display = "block";
     } else {
         console.error("Error: Popup element not found");
     }
@@ -114,24 +123,23 @@ function showSuccessPopup() {
 
 // Function to close the success popup
 function closeSuccessPopup() {
-    var popup = document.getElementById('successPopup');
-    popup.style.display = 'none';
+    var popup = document.getElementById("successPopup");
+    popup.style.display = "none";
 }
-
 
 // Function to toggle password visibility
 function togglePasswordVisibility() {
-    var passwordInput = document.getElementById('password');
-    var passwordToggle = document.querySelector('.password-toggle');
+    var passwordInput = document.getElementById("password");
+    var passwordToggle = document.querySelector(".password-toggle");
 
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        passwordToggle.classList.remove('bi-eye');
-        passwordToggle.classList.add('bi-eye-slash');
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        passwordToggle.classList.remove("bi-eye");
+        passwordToggle.classList.add("bi-eye-slash");
     } else {
-        passwordInput.type = 'password';
-        passwordToggle.classList.remove('bi-eye-slash');
-        passwordToggle.classList.add('bi-eye');
+        passwordInput.type = "password";
+        passwordToggle.classList.remove("bi-eye-slash");
+        passwordToggle.classList.add("bi-eye");
     }
 }
 
@@ -140,14 +148,18 @@ function togglePasswordVisibility(inputId, toggleId) {
     var passwordInput = document.getElementById(inputId);
     var passwordToggle = document.getElementById(toggleId);
 
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        passwordToggle.classList.remove('bi-eye');
-        passwordToggle.classList.add('bi-eye-slash');
+    var showPassword = document.getElementById("show"+inputId);
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        // passwordToggle.classList.remove('bi-eye');
+        // passwordToggle.classList.add('bi-eye-slash');
+        showPassword.classList.replace("fa-eye", "fa-eye-slash");
     } else {
-        passwordInput.type = 'password';
-        passwordToggle.classList.remove('bi-eye-slash');
-        passwordToggle.classList.add('bi-eye');
+        passwordInput.type = "password";
+        // passwordToggle.classList.remove("bi-eye-slash");
+        // passwordToggle.classList.add("bi-eye");
+        showPassword.classList.replace("fa-eye-slash", "fa-eye");
     }
 }
 
@@ -191,7 +203,9 @@ function submitForgotPasswordForm() {
             // Check if any sign-in methods are associated with the email
             if (signInMethods.length === 0) {
                 // Email address not found in Firebase Authentication
-                alert("Email address not found. Please enter a registered email address.");
+                alert(
+                    "Email address not found. Please enter a registered email address."
+                );
             } else {
                 // Send a password reset email to the user's email address
                 return auth.sendPasswordResetEmail(userEmail);
@@ -208,10 +222,11 @@ function submitForgotPasswordForm() {
             var errorMessage = error.message;
             console.error("Error sending password reset email:", errorMessage);
             // Display a generic error message
-            alert("An error occurred while sending the password reset email. Please try again later.");
+            alert(
+                "An error occurred while sending the password reset email. Please try again later."
+            );
         });
 }
-
 
 // Function to toggle login form
 function toggleLogin() {
@@ -224,7 +239,7 @@ function toggleLogin() {
     signupForm.style.display = "none";
     forgotPasswordForm.style.display = "none";
     signupText.style.display = "block";
-    closeSuccessPopup()
+    closeSuccessPopup();
 }
 
 function toggleSignUp() {
@@ -240,7 +255,7 @@ function toggleSignUp() {
         loginForm.style.display = "none";
         signupForm.style.display = "block";
         signupText.style.display = "none";
-    }      
+    }
     closeSuccessPopup();
 }
 
@@ -257,9 +272,9 @@ function handleSuccessfulLogin() {
     if (loadingScreen) {
         loadingScreen.style.display = "block";
     }
-    window.location.href = "/Dashboard/index.html"; 
+    window.location.href = "/Dashboard/index.html";
     // setTimeout(function() {
-    //     window.location.href = "/Dashboard/index.html"; 
+    //     window.location.href = "/Dashboard/index.html";
     // }, 3000); // Change 3000 to the desired delay in milliseconds
 }
 
@@ -269,13 +284,15 @@ function submitForm(event) {
     var password = document.getElementById("password").value;
     document.querySelector(".warning").style = "display: none";
 
-    if(email && password){
-        firebase.auth().signInWithEmailAndPassword(email.toString(), password.toString())
+    if (email && password) {
+        firebase
+            .auth()
+            .signInWithEmailAndPassword(email.toString(), password.toString())
             .then((userCredential) => {
                 // Log success or navigate
                 console.log("Logged in with UID:", userCredential.user.uid);
                 var user = userCredential.user;
-                fetchData(user)
+                fetchData(user);
             })
             .catch((error) => {
                 document.querySelector(".warning").style = "display: flex";
@@ -283,25 +300,34 @@ function submitForm(event) {
     }
 }
 
-
 function fetchData(user) {
     const usersRef = db.ref("users");
 
-    usersRef.once('value', (snapshot) => {
-    if (snapshot.exists()) {
-      snapshot.forEach((childSnapshot) => {
-        let userDB = childSnapshot.val();
-        if(user.email === userDB.email){
-            localStorage.setItem('userInfo', JSON.stringify({ name: userDB.name, email: userDB.email, role: userDB.role, status: userDB.status}));
+    usersRef.once(
+        "value",
+        (snapshot) => {
+            if (snapshot.exists()) {
+                snapshot.forEach((childSnapshot) => {
+                    let userDB = childSnapshot.val();
+                    if (user.email === userDB.email) {
+                        localStorage.setItem(
+                            "userInfo",
+                            JSON.stringify({
+                                name: userDB.name,
+                                email: userDB.email,
+                                role: userDB.role,
+                                status: userDB.status,
+                            })
+                        );
+                    }
+                });
+                handleSuccessfulLogin();
+            } else {
+                console.log("No users data available");
+            }
+        },
+        (error) => {
+            console.error("Error fetching data: ", error);
         }
-      });
-      handleSuccessfulLogin();
-    } else {
-      console.log("No users data available");
-    }
-  }, (error) => {
-    console.error("Error fetching data: ", error);
-  });
+    );
 }
-
-

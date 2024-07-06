@@ -207,6 +207,20 @@ function formatDate(date) {
     } ${date.getDate()}, ${date.getFullYear()}`;
 }
 
+function convertLatLongToNumbers(data) {
+    return data.map((item) => {
+        item.latitude =
+            typeof item.latitude === "string"
+                ? parseFloat(item.latitude)
+                : item.latitude;
+        item.longitude =
+            typeof item.longitude === "string"
+                ? parseFloat(item.longitude)
+                : item.longitude;
+        return item;
+    });
+}
+
 function displayCrimes(startOfWeek, endOfWeek) {
     startOfWeek.setHours(0, 0, 0, 0);
     endOfWeek.setHours(23, 59, 59, 999);
@@ -215,8 +229,9 @@ function displayCrimes(startOfWeek, endOfWeek) {
         const crimeDate = new Date(crime.date);
         return crimeDate >= startOfWeek && crimeDate <= endOfWeek;
     });
-    crimes = filteredCrimes;
-    processCrimeData(filteredCrimes);
+    let convertFilteredCrimes = convertLatLongToNumbers(filteredCrimes);
+    crimes = convertFilteredCrimes;
+    processCrimeData(convertFilteredCrimes);
     displayMap(null);
 }
 
@@ -534,7 +549,7 @@ function displayMap(newLocation) {
         if (addHotspot) {
             var circle = L.circle(latlng, {
                 color: "transparent",
-                fillColor: "#f03",
+                fillColor: "#ff6961",
                 fillOpacity: 0.5,
                 radius: 100,
             });

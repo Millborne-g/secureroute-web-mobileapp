@@ -227,6 +227,20 @@ function formatDate(date) {
     } ${date.getDate()}, ${date.getFullYear()}`;
 }
 
+function convertLatLongToNumbers(data) {
+    return data.map((item) => {
+        item.latitude =
+            typeof item.latitude === "string"
+                ? parseFloat(item.latitude)
+                : item.latitude;
+        item.longitude =
+            typeof item.longitude === "string"
+                ? parseFloat(item.longitude)
+                : item.longitude;
+        return item;
+    });
+}
+
 function displayCrimes(startOfWeek, endOfWeek) {
     startOfWeek.setHours(0, 0, 0, 0);
     endOfWeek.setHours(23, 59, 59, 999);
@@ -235,7 +249,8 @@ function displayCrimes(startOfWeek, endOfWeek) {
         const crimeDate = new Date(crime.date);
         return crimeDate >= startOfWeek && crimeDate <= endOfWeek;
     });
-    crimes = filteredCrimes;
+    let convertFilteredCrimes = convertLatLongToNumbers(filteredCrimes);
+    crimes = convertFilteredCrimes;
     displayMap();
 }
 
@@ -341,6 +356,39 @@ function displayMap() {
         }
 
         // Function to merge points within 200 meters
+        // function mergeClosePoints(points) {
+        //     console.log("points", points);
+        //     var mergedPoints = [];
+        //     var visited = new Array(points.length).fill(false);
+
+        //     for (var i = 0; i < points.length; i++) {
+        //         if (!visited[i]) {
+        //             visited[i] = true;
+        //             var closePoints = [points[i]];
+        //             for (var j = i + 1; j < points.length; j++) {
+        //                 if (haversineDistance(points[i], points[j]) <= 100) {
+        //                     closePoints.push(points[j]);
+        //                     visited[j] = true;
+        //                 }
+        //             }
+        //             // Calculate the average latitude and longitude of the close points
+        //             var avgLat =
+        //                 closePoints.reduce(
+        //                     (sum, point) => sum + point.latitude,
+        //                     0
+        //                 ) / closePoints.length;
+        //             var avgLon =
+        //                 closePoints.reduce(
+        //                     (sum, point) => sum + point.longitude,
+        //                     0
+        //                 ) / closePoints.length;
+        //             mergedPoints.push({ latitude: avgLat, longitude: avgLon });
+        //         }
+        //     }
+
+        //     return mergedPoints;
+        // }
+
         function mergeClosePoints(points) {
             var mergedPoints = [];
             var visited = new Array(points.length).fill(false);
@@ -350,28 +398,64 @@ function displayMap() {
                     visited[i] = true;
                     var closePoints = [points[i]];
                     for (var j = i + 1; j < points.length; j++) {
-                        if (haversineDistance(points[i], points[j]) <= 100) {
+                        if (
+                            !visited[j] &&
+                            haversineDistance(points[i], points[j]) <= 100
+                        ) {
                             closePoints.push(points[j]);
                             visited[j] = true;
                         }
                     }
-                    // Calculate the average latitude and longitude of the close points
-                    var avgLat =
-                        closePoints.reduce(
-                            (sum, point) => sum + point.latitude,
-                            0
-                        ) / closePoints.length;
-                    var avgLon =
-                        closePoints.reduce(
-                            (sum, point) => sum + point.longitude,
-                            0
-                        ) / closePoints.length;
-                    mergedPoints.push({ latitude: avgLat, longitude: avgLon });
+                    if (closePoints.length > 0) {
+                        var avgLat =
+                            closePoints.reduce(
+                                (sum, point) =>
+                                    sum + parseFloat(point.latitude),
+                                0
+                            ) / closePoints.length;
+                        var avgLon =
+                            closePoints.reduce(
+                                (sum, point) =>
+                                    sum + parseFloat(point.longitude),
+                                0
+                            ) / closePoints.length;
+                        mergedPoints.push({
+                            latitude: avgLat,
+                            longitude: avgLon,
+                        });
+                    } else {
+                        console.log(
+                            "No close points found for point: ",
+                            points[i]
+                        );
+                    }
                 }
             }
 
             return mergedPoints;
         }
+
+        // Sample haversineDistance function for completeness
+        function haversineDistance(point1, point2) {
+            var R = 6371; // Radius of the Earth in km
+            var dLat = ((point2.latitude - point1.latitude) * Math.PI) / 180;
+            var dLon = ((point2.longitude - point1.longitude) * Math.PI) / 180;
+            var a =
+                0.5 -
+                Math.cos(dLat) / 2 +
+                (Math.cos((point1.latitude * Math.PI) / 180) *
+                    Math.cos((point2.latitude * Math.PI) / 180) *
+                    (1 - Math.cos(dLon))) /
+                    2;
+            return R * 2 * Math.asin(Math.sqrt(a)) * 1000; // distance in meters
+        }
+
+        // Sample data
+        var crimeFiltered = [
+            { latitude: 8.4749, longitude: 124.6437 },
+            { latitude: 8.475, longitude: 124.6438 },
+            { latitude: 8.4803, longitude: 124.6345 },
+        ];
 
         view.when(() => {
             let crimeFiltered = crimes;
@@ -386,6 +470,7 @@ function displayMap() {
                     (crime) => crime.crimeType === "Manually Added"
                 );
             }
+
             let mergeCrimePoints = mergeClosePoints(crimeFiltered);
             mergeCrimePoints.forEach((point, index) => {
                 addGraphic(point.label, new Point(point));
@@ -459,7 +544,7 @@ function displayMap() {
                 })
                 .catch((error) => {
                     console.error("Routing error: ", error);
-                    let week = document.getElementById("weekRange").innerText
+                    let week = document.getElementById("weekRange").innerText;
                     alert(
                         "Failed to calculate route: " +
                             error.message +
@@ -668,7 +753,6 @@ function displayNewRoute() {
             let crimeFiltered = crimes.filter(
                 (crime) => crime.crimeType === "Manually Added"
             );
-            console.log(crimes);
             crimeFiltered.forEach((point, index) => {
                 setTimeout(() => {
                     addGraphic(point.label, new Point(point));
@@ -796,11 +880,13 @@ function backToDefault() {
 // save new location
 let newCrime = {};
 document.getElementById("rightBtn").addEventListener("click", function () {
-    if (document.getElementById("rightBtn").textContent.trim()=== "Next") {
+    if (document.getElementById("rightBtn").textContent.trim() === "Next") {
         // Create a new Date object
         let now = new Date();
-        // Format the date and time in a human-readable format
-        let dateString = now.toLocaleDateString();
+        let year = now.getFullYear();
+        let month = String(now.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+        let day = String(now.getDate()).padStart(2, "0");
+        let dateString = `${year}-${month}-${day}`;
         let timeString = now.toLocaleTimeString();
 
         newCrime = {
@@ -833,7 +919,9 @@ document.getElementById("rightBtn").addEventListener("click", function () {
 
         // #3d8afd
     } else {
-        console.log(document.getElementById("rightBtn").textContent.trim() === "Next");
+        console.log(
+            document.getElementById("rightBtn").textContent.trim() === "Next"
+        );
         saveToDatabase(newCrime);
     }
 });
@@ -864,8 +952,8 @@ function saveToDatabase(newCrime) {
 function addLogs(type) {
     let logsRef = db.ref("webLogs");
     let now = new Date();
-    let options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    let dateString = now.toLocaleDateString('en-US', options);
+    let options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    let dateString = now.toLocaleDateString("en-US", options);
     let timeString = now.toLocaleTimeString();
 
     logsRef.push({

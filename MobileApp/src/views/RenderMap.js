@@ -41,7 +41,7 @@ const RenderMap = ({ setLogin }) => {
     const [allCrimes, setAllCrimes] = useState([]);
     const [crimesDisplay, setCrimesDisplay] = useState(); // Using sample data
     const [heading, setHeading] = useState(0);
-    const [selectedRouting, setSelectedRouting] = useState("Time-Based");
+    const [selectedRouting, setSelectedRouting] = useState("Nearest Crime");
     const [routeCoordinates, setRouteCoordinates] = useState([]);
     const [userLocation, setUserLocation] = useState(null);
     const [targetCrime, setTargetCrime] = useState(null);
@@ -334,9 +334,11 @@ const RenderMap = ({ setLogin }) => {
             const crimeDate = moment(crime.date, "YYYY-MM-DD"); // Updated date format
             return crimeDate.isBetween(startOfWeek, endOfWeek, null, "[]");
         });
-        const mergedPoints = mergeClosePoints(filtered);
-        setCrimesDisplay(filtered);
-        setCrimes(mergedPoints);
+        let convertFiltered = convertLatLongToNumbers(filtered);
+        const mergedPoints = mergeClosePoints(convertFiltered);
+        let convertMergedPoints = convertLatLongToNumbers(mergedPoints);
+        setCrimesDisplay(convertFiltered);
+        setCrimes(convertMergedPoints);
         setWeekRange(
             `${startOfWeek.format("MMMM D, YYYY")} to ${endOfWeek.format(
                 "MMMM D, YYYY"
@@ -411,7 +413,6 @@ const RenderMap = ({ setLogin }) => {
     };
 
     // Function to merge points within 100 meters
-    // Function to merge points within 100 meters
     function mergeClosePoints(points) {
         var mergedPoints = [];
         var visited = new Array(points.length).fill(false);
@@ -447,12 +448,12 @@ const RenderMap = ({ setLogin }) => {
                 // Calculate the average latitude and longitude of the close points
                 var avgLat =
                     closePoints.reduce(
-                        (sum, point) => sum + point.latitude,
+                        (sum, point) => sum + parseFloat(point.latitude),
                         0
                     ) / closePoints.length;
                 var avgLon =
                     closePoints.reduce(
-                        (sum, point) => sum + point.longitude,
+                        (sum, point) => sum + parseFloat(point.longitude),
                         0
                     ) / closePoints.length;
 
@@ -466,6 +467,20 @@ const RenderMap = ({ setLogin }) => {
         }
 
         return mergedPoints;
+    }
+
+    function convertLatLongToNumbers(data) {
+        return data.map((item) => {
+            item.latitude =
+                typeof item.latitude === "string"
+                    ? parseFloat(item.latitude)
+                    : item.latitude;
+            item.longitude =
+                typeof item.longitude === "string"
+                    ? parseFloat(item.longitude)
+                    : item.longitude;
+            return item;
+        });
     }
 
     if (!location) return <LoadingScreen />;
@@ -517,14 +532,22 @@ const RenderMap = ({ setLogin }) => {
                         }}
                         // title={crime.crime.toUpperCase()}
                         description={crime.date + " " + crime.time}
-                        pinColor="blue" // Different color to distinguish crime locations
-                    />
+                    >
+                        <View
+                            style={{
+                                width: 5,
+                                height: 5,
+                                backgroundColor: "red",
+                                borderRadius: 5,
+                            }}
+                        />
+                    </Marker>
                 ))}
                 {routeCoordinates?.length > 0 && (
                     <Polyline
                         coordinates={routeCoordinates}
                         strokeWidth={2}
-                        strokeColor="red"
+                        strokeColor="blue"
                     />
                 )}
 
@@ -537,8 +560,8 @@ const RenderMap = ({ setLogin }) => {
                         }}
                         radius={100} // Radius in meters
                         strokeWidth={2}
-                        strokeColor="rgba(0, 0, 255, 0.5)"
-                        fillColor="rgba(0, 0, 255, 0.1)"
+                        strokeColor="rgba(235, 64, 52, 0.5)"
+                        fillColor="rgba(235, 64, 52, 0.1)"
                     />
                 ))}
 
@@ -556,8 +579,8 @@ const RenderMap = ({ setLogin }) => {
                     >
                         <View
                             style={{
-                                width: 10,
-                                height: 10,
+                                width: 5,
+                                height: 5,
                                 backgroundColor: "black",
                                 borderRadius: 5,
                             }}
@@ -569,12 +592,12 @@ const RenderMap = ({ setLogin }) => {
             <View
                 style={{
                     position: "absolute",
-                    top: -30,
+                    top: 45,
                     height: "10px",
-                    width: "100%",
+                    width: "110%",
                 }}
             >
-                <SegmentControl
+                {/* <SegmentControl
                     options={[
                         { key: "Time-based", label: "Time-based Routing" },
                         { key: "Nearest Crime", label: "TSP Routing" },
@@ -582,7 +605,7 @@ const RenderMap = ({ setLogin }) => {
                     onChange={(selectedRouting) =>
                         setSelectedRouting(selectedRouting)
                     }
-                />
+                /> */}
                 <View
                     style={{
                         flexDirection: "column",

@@ -32,21 +32,21 @@
             <div class="container-inner">
                 <div class="logo-container">
                     <!-- <img src="background.png" alt="Your Logo" /> -->
-                    <div class="loginBg">
-                    </div>
-                    <div class="bgcover">
-                    </div>
-                    
+                    <div class="loginBg"></div>
+                    <div class="bgcover"></div>
+
                     <div class="textContainer">
                         <span class="welcomeText">
                             Welcome to the SecureRoute Admin Portal!
                         </span>
                         <span class="subWelcomeText">
-                            A cutting-edge technology to ensure swift response, enhance community safety, and empower law enforcement efforts across the board.
+                            A cutting-edge technology to ensure swift response,
+                            enhance community safety, and empower law
+                            enforcement efforts across the board.
                         </span>
 
                         <div class="logoContainer">
-                            <img class="loginLogo" src="../assets/logo.png">
+                            <img class="loginLogo" src="../assets/logo.png" />
                             <span class="webName">SecureRoute</span>
                         </div>
                     </div>
@@ -80,8 +80,12 @@
                                     class="password-toggle bi"
                                     id="togglePassword"
                                     onclick="togglePasswordVisibility('password', 'togglePassword')"
-                                    >&#128065;</span
                                 >
+                                    <i
+                                        id="showpassword"
+                                        class="fa-solid fa-eye"
+                                    ></i>
+                                </span>
                             </div>
                             <center>
                                 <a href="#" onclick="toggleForgotPassword()"
@@ -156,8 +160,12 @@
                                     class="password-toggle bi"
                                     id="toggleNewPassword"
                                     onclick="togglePasswordVisibility('newPassword', 'toggleNewPassword')"
-                                    >&#128065;</span
                                 >
+                                    <i
+                                        id="shownewPassword"
+                                        class="fa-solid fa-eye"
+                                    ></i>
+                                </span>
                             </div>
                             <label for="confirmPassword"
                                 >Confirm Password:</label
@@ -173,8 +181,12 @@
                                     class="password-toggle bi"
                                     id="toggleConfirmPassword"
                                     onclick="togglePasswordVisibility('confirmPassword', 'toggleConfirmPassword')"
-                                    >&#128065;</span
                                 >
+                                    <i
+                                        id="showconfirmPassword"
+                                        class="fa-solid fa-eye"
+                                    ></i>
+                                </span>
                             </div>
                             <button type="submit" onclick="submitSignUpForm()">
                                 Sign Up

@@ -313,14 +313,15 @@ input[type="number"] {
     /* #mobileAppCard {
         height: 485px;
     } */
+     
+    #mobileAppCard {
+        height: 485px;
+    }
 }
 
 @media (max-width: 992px) {
     .userFullname {
         display: none;
-    }
-    #mobileAppCard {
-        height: 485px;
     }
 }
 

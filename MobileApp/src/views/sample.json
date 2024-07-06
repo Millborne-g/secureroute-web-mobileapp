@@ -1,0 +1,112 @@
+[
+    {
+        "address": "J. Gaerlan Street, Barangay 1, Cagayan De Oro City, Misamis Oriental, Northern Mindanao, PHL",
+        "crime": "Rape",
+        "date": "2024-06-10",
+        "id": "-O0EdDhP5S9J_90vYoz2",
+        "latitude": "8.47609583035793",
+        "longitude": "124.6417621605398",
+        "point": 2,
+        "time": "10:45:30 PM"
+    },
+    {
+        "address": "Fernandez Street, Nazareth, Cagayan De  Oro City, Misamis Oriental, Northern Mindanao, PHL",
+        "crime": "Homicide",
+        "date": "2024-06-10",
+        "id": "-O0EdVv4pCJZ86hOCZBA",
+        "latitude": "8.47493915879532",
+        "longitude": "124.64372956085188",
+        "point": 2,
+        "time": "9:51:30 PM"
+    },
+    {
+        "address": "Gaerlan Street, Barangay 1, Cagayan De Oro City, Misamis Oriental, Northern Mindanao, PHL",
+        "crime": "Homicide",
+        "date": "2024-06-10",
+        "id": "-O0EdapoDudBEkfDqjMi",
+        "latitude": "8.475769035313018",
+        "longitude": "124.64247865423593",
+        "point": 2,
+        "time": "9:48:30 PM"
+    },
+    {
+        "address": "Dolores Street, Barangay 1, Cagayan De Oro City, Misamis Oriental, Northern Mindanao, PHL",
+        "crime": "Theft",
+        "date": "2024-06-11",
+        "id": "-O0EdgMztjLSL-L0L7Vc",
+        "latitude": "8.47551830313492",
+        "longitude": "124.64165184555588",
+        "point": 1,
+        "time": "9:50:30 PM"
+    },
+    {
+        "address": "PR Saving Bank, T. Chavez Street, Barangay 1, Cagayan De Oro City, Misamis Oriental, Northern Mindanao, PHL",
+        "crime": "Robbery",
+        "date": "2024-06-12",
+        "id": "-O0Edm6Qs6B8CsEs7DKV",
+        "latitude": "8.476912926520384",
+        "longitude": "124.64413725662176",
+        "point": 1,
+        "time": "9:49:30 PM"
+    },
+    {
+        "address": "Nova Salon, T. Chavez Street, Barangay 3, Cagayan De Oro City, Misamis Oriental, Northern Mindanao, PHL",
+        "crime": "Theft",
+        "date": "2024-06-13",
+        "id": "-O0EdrQnD61b_qEOWCj_",
+        "latitude": "8.476721917183404",
+        "longitude": "124.6449258260728",
+        "point": 1,
+        "time": "12:48:30 PM"
+    },
+    {
+        "address": "BDO ATM - Cagayan De Oro - Velez, Barangay 2, Cagayan De Oro City, Misamis Oriental, Northern Mindanao, PHL",
+        "crime": "Homicide",
+        "date": "2024-06-12",
+        "id": "-O0Edwjp0MN0lVLzKfow",
+        "latitude": "8.477451894483453",
+        "longitude": "124.64419343036802",
+        "point": 2,
+        "time": "9:51:30 PM"
+    },
+    {
+        "address": "Pabayo Street, Barangay 3, Cagayan De Oro City, Misamis Oriental, Northern Mindanao, PHL",
+        "crime": "Homicide",
+        "date": "2024-06-13",
+        "id": "-O0Ee0N7pPzith0AHYd8",
+        "latitude": "8.478361410903888",
+        "longitude": "124.64523696231862",
+        "point": 2,
+        "time": "9:51:30 PM"
+    },
+    {
+        "address": "Gomez Street, Barangay 5, Cagayan De Oro City, Misamis Oriental, Northern Mindanao, PHL",
+        "crime": "Murder",
+        "date": "2024-06-12",
+        "id": "-O0Ee5b_MX3UNqPv4419",
+        "latitude": "8.478653229441232",
+        "longitude": "124.64480244445805",
+        "point": 2,
+        "time": "9:52:30 PM"
+    },
+    {
+        "address": "Cahatian Bridal Fashion, Capistrano Street, Barangay 5, Cagayan De Oro City, Misamis Oriental, Northern Mindanao, PHL",
+        "crime": "Theft",
+        "date": "2024-06-14",
+        "id": "-O0EeC7I_XtnGYJqUMiC",
+        "latitude": "8.478673037052891",
+        "longitude": "124.64270522049289",
+        "point": 1,
+        "time": "9:50:30 PM"
+    },
+    {
+        "address": "Cruz Taal Street, Barangay 3, Cagayan De Oro City, Misamis Oriental, Northern Mindanao, PHL",
+        "crime": "Theft",
+        "date": "2024-06-14",
+        "id": "-O0EePJB9XXJmtW79Xft",
+        "latitude": "8.47788388918282",
+        "longitude": "124.64553736972817",
+        "point": 1,
+        "time": "9:52:30 PM"
+    }
+]
